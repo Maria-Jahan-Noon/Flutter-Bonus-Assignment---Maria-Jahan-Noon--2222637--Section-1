@@ -1,31 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:summer_iub_app/screens/home.dart';
-import 'package:summer_iub_app/state_management/coffee_state_management.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'screens/coffee_list_screen.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(const BrewJournalApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class BrewJournalApp extends StatelessWidget {
+  const BrewJournalApp({super.key});
 
-  
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: 
-      [
-        ChangeNotifierProvider(create: (context) => CoffeeStateManagement(),),
-      ],
-      child: MaterialApp(
-        title: 'Flutter Summer CSE464 class',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.brown),
+    return MaterialApp(
+      title: 'Maria\'s Brew Journal',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primaryColor: const Color(0xFF4E342E),
+        scaffoldBackgroundColor: const Color(0xFFF5F5F5),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF8D6E63),
+          primary: const Color(0xFF4E342E),
         ),
-        home: HomePage(pageTitle: "Welcome to CSE464!"),
+        useMaterial3: true,
       ),
+      home: const CoffeeListScreen(),
     );
   }
 }
-
